@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Test from './pages/test'
+import Question from './pages/question';
+import Answer from './pages/answer';
+import Submit from './pages/submit';
+import Mypage from './pages/mypage';
+import { MediaStreamProvider } from './media-stream-context';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MediaStreamProvider>
+      <Router>
+        <Routes>
+          <Route path='/test' element={<Test />} />
+          <Route path='/question' element={<Question />} />
+          <Route path='/answer' element={<Answer />} />
+          <Route path='/submit' element={<Submit />} />
+          <Route path='/mypage' element={<Mypage />} />
+        </Routes>
+      </Router>
+    </MediaStreamProvider>
   );
 }
 
