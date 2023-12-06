@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import ProgressStep from '../components/progress-step';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useNavigate } from 'react-router-dom';
 
 const GradientBackground = styled.div`
   height: 100vh; //전체화면
-  background-image: linear-gradient(to bottom, #8E2DE2CC, #4CA2CDCC);
+  background-image: linear-gradient(to bottom, #8e2de2cc, #4ca2cdcc);
 `;
 
 const InfoBox = styled.div`
@@ -27,7 +27,6 @@ const SubmitText = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: white;
-  
 `;
 
 const SubmitButton = styled.button`
@@ -42,9 +41,9 @@ const SubmitButton = styled.button`
   display: flex;
   align-items: center; // 수직 중앙 정렬
   justify-content: center; // 수평 중앙 정렬
-  color: white;           
+  color: white;
   font-weight: 600;
-  font-size: 16px; 
+  font-size: 16px;
 
   &:hover {
     background-color: white; // 마우스 오버시 배경색 흰색으로 변경
@@ -53,15 +52,17 @@ const SubmitButton = styled.button`
 `;
 
 const Submit: React.FC = () => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const PageNavStart = () => {
+    navigate('/start');
+  };
   return (
     <GradientBackground>
       <ProgressStep activeStep={4} />
       <InfoBox>
         <SubmitText>제출이 정상적으로 완료되었습니다.</SubmitText>
         <SubmitText>분석 보고서를 생성중이니 잠시만 기다려주세요!</SubmitText>
-        <SubmitButton>홈으로 이동하기</SubmitButton>
+        <SubmitButton onClick={PageNavStart}>홈으로 이동하기</SubmitButton>
       </InfoBox>
     </GradientBackground>
   );

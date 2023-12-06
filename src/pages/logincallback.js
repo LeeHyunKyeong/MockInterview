@@ -26,6 +26,16 @@ const Redirection = () => {
     if (code) {
       sendCodeToBackend();
     }
+
+    // 3초 후에 start 페이지로 이동합니다.
+    const timeoutId = setTimeout(() => {
+      navigate('/start');
+    }, 3000);
+
+    // cleanup 함수에서 setTimeout을 취소합니다.
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [code]);
 
   return <div>로그인 중입니다.</div>;
