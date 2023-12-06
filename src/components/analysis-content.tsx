@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IoEllipsisVertical } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 const AnalysisContainer = styled.div`
   margin-left: 40px;
@@ -57,7 +58,7 @@ const DropdownMenu = styled.div<DropdownMenuProps>`
   background-color: white;
   border: 1px solid #ddd;
   z-index: 1000;
-  display: ${props => props.show ? 'block' : 'none'};
+  display: ${(props) => (props.show ? 'block' : 'none')};
 `;
 
 const DropdownItem = styled.div`
@@ -99,17 +100,21 @@ const AnalysisContent = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   // 백엔드에서 받아올 질문 내용을 state로 관리합니다.
   // 예시를 위해 하드코딩된 상태로 시작하지만, 이후에 API 호출로 대체될 수 있습니다.
-  const [question, setQuestion] = useState("1분 자기소개를 해주세요");
+  const [question, setQuestion] = useState('1분 자기소개를 해주세요');
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
+  //레포트로 이동
+  // const navigate = useNavigate();
+  // const PageNavReport = (id) => {
+  //   navigate(`/report/${id}`);
+  // };
+
   return (
     <AnalysisContainer>
-      <Video>
-        {/* 영상 데이터 렌더링 */}
-      </Video>
+      <Video>{/* 영상 데이터 렌더링 */}</Video>
       <DateAndQuestion>
         <DateContainer>
           <Date>날짜</Date>
@@ -126,7 +131,9 @@ const AnalysisContent = () => {
       </DateAndQuestion>
       <QuestionLabel>질문 {question}</QuestionLabel>
       <ButtonContainer>
+        {/* <Button onClick={() => PageNavReport(id)}>분석 레포트 확인</Button> */}
         <Button>분석 레포트 확인</Button>
+
         <Button>해당 질문 재연습</Button>
       </ButtonContainer>
     </AnalysisContainer>
