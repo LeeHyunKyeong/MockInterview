@@ -115,7 +115,7 @@ const Report = () => {
   const [result, setResult] = useState([
     '2023-11-23',
     '1분 자기소개를 해주세요.',
-    1,
+    -1,
     '수',
     '있는',
     '이런',
@@ -129,8 +129,18 @@ const Report = () => {
     const fetchData = async () => {
       const response = await onReportClick(postID); // API 호출
       if (response) {
-        console.log(response?.data); // 응답 데이터 출력
-        setResult(Object.values(response?.data)); // 응답 데이터를 state에 저장
+        setResult([
+          response['created_at'],
+          response['question'],
+          response['speed'],
+          response['word_one'],
+          response['word_two'],
+          response['word_three'],
+          response['volume'],
+          response['tone'],
+          response['eye_rate'],
+          response['talking_rate'],
+        ]); // 응답 데이터를 state에 저장
       }
     };
 
@@ -140,9 +150,11 @@ const Report = () => {
   const speedmsg = [
     '말의 빠르기는 아주 적절해요! 말하면서 급하게 느껴지지 않으면서도 듣는 사람이 지루하지 않을 만큼의 속도감을 유지하고 있어요. 이대로 계속 연습해주세요. 참고로 적절한 말의 빠르기는 평균적으로 120~150단어/분 입니다.',
     '현재 말의 빠르기가 조금 빠른 편이에요. 너무 빨리 말하면 듣는 사람이 받아들이기 힘들 수 있어요. 조금 더 여유롭게, 효과적인 강조와 휴식을 활용하여 말해보세요. 참고로 적절한 말의 빠르기는 평균적으로 120~150단어/분 입니다.',
+    '현재 말의 빠르기가 조금 느린 편이에요. 너무 천천히 말하면 듣는 사람이 지루해할 수 있어요. 조금 더 빠르게 말해보세요. 참고로 적절한 말의 빠르기는 평균적으로 120~150단어/분 입니다.',
   ];
+
   const wordmsg = [
-    '현재 자주 사용하는 단어가 반복되는 경향이 있어요. 어휘의 다양성이 부족하면 듣는 사람이 지루해할 수 있어요. 단어 선택을 다양화하고, 문맥에 맞는 단어를 사용하는 연습을 해보세요.',
+    '이러한 단어가 반복되는 경향이 있어요. 어휘의 다양성이 부족하면 듣는 사람이 지루해할 수 있어요. 단어 선택을 다양화하고, 문맥에 맞는 단어를 사용하는 연습을 해보세요.',
   ];
 
   const volumemsg = [
@@ -160,13 +172,18 @@ const Report = () => {
     '시선 처리가 조금 아쉽습니다. 한 곳만 응시하게 되면 불안정한 모습으로 보일 수 있어요. 듣는 사람에게 시선을 주되, 때때로 멀리 보는 것도 잊지 않는 것이 좋습니다.',
   ];
 
-  const expressionmsg = [
-    '표정 처리가 아주 좋습니다. 웃음을 잘 유지하면서도 감정에 따라 다양한 표정을 보여주셨어요. 이대로 계속 연습해주세요.',
-    '표정 처리가 조금 아쉽습니다. 얼굴 표정이 한결같이 일정하면, 감정의 빈약함을 보여줄 수 있어요. 감정에 따라 표정을 다양하게 연출해보세요.',
+  const talkingratemsg = [
+    '대화의 효율성이 아주 좋습니다. 주어진 시간 동안 효과적으로 이야기를 전달하고 있어요. 이대로 계속 유지하시면 좋을 것 같아요.',
+    '현재 대화의 효율성이 조금 떨어집니다. 불필요한 말을 줄이고, 중요한 내용에 집중해서 이야기를 전달하는 연습을 해보세요.',
   ];
+
   const Emoji = ({ what, emo }) => {
     let emojiSrc;
-    if (emo === 0) {
+    if ((emo === 0) & (what === '말의 빠르기')) {
+      emojiSrc = joy;
+    } else if (what === '말의 빠르기') {
+      emojiSrc = grinning;
+    } else if (emo === 0) {
       emojiSrc = grinning;
     } else if (emo === 1) {
       emojiSrc = joy;
@@ -194,7 +211,7 @@ const Report = () => {
     else if (item === '목소리 크기') msgList = volumemsg;
     else if (item === '목소리 톤') msgList = tonemsg;
     else if (item === '시선처리') msgList = gazemsg;
-    else if (item === '표정') msgList = expressionmsg;
+    else if (item === '알찬 시간') msgList = talkingratemsg;
     else if (item === '자주 사용한 단어') msgList = wordmsg;
 
     if (item !== '자주 사용한 단어') {
@@ -204,6 +221,9 @@ const Report = () => {
       } else if (emo === 1) {
         emojiSrc = joy;
         message = <MessageBox>{msgList[0]}</MessageBox>;
+      } else if (emo === -1) {
+        emojiSrc = grinning;
+        message = <MessageBox>{msgList[2]}</MessageBox>;
       }
     } else {
       message = <MessageBox>{msgList[0]}</MessageBox>;
@@ -243,7 +263,7 @@ const Report = () => {
               <Emoji what="목소리 크기" emo={result[6]} key="volume" />
               <Emoji what="목소리 톤" emo={result[7]} key="tone" />
               <Emoji what="시선 처리" emo={result[8]} key="gaze" />
-              <Emoji what="표정" emo={result[9]} key="expression" />
+              <Emoji what="알찬 시간" emo={result[9]} key="expression" />
             </EmojiSet>
           </RowBox>
           <ReportMsg
@@ -258,7 +278,7 @@ const Report = () => {
           <ReportMsg item="목소리 크기" emo={result[6]} />
           <ReportMsg item="목소리 톤" emo={result[7]} />
           <ReportMsg item="시선처리" emo={result[8]} />
-          <ReportMsg item="표정" emo={result[9]} />
+          <ReportMsg item="알찬 시간" emo={result[9]} />
         </Innerbox>
       </Container>
     </ReportWallpaper>
