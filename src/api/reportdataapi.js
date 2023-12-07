@@ -6,7 +6,7 @@ export function onReportClick(postId) {
   axios
     .get(`http://127.0.0.1:8000/inerview/report?report_id=${postId}`)
     .then((response) => {
-      console.log(response.data);
+      return response.data;
     })
     .catch((error) => {
       console.error(`Error: ${error}`);
