@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IoEllipsisVertical } from 'react-icons/io5';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const AnalysisContainer = styled.div`
@@ -102,6 +103,10 @@ const AnalysisContent = () => {
   // 예시를 위해 하드코딩된 상태로 시작하지만, 이후에 API 호출로 대체될 수 있습니다.
   const [question, setQuestion] = useState('1분 자기소개를 해주세요');
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const videoUrl = queryParams.get('videoUrl');
+
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -114,7 +119,7 @@ const AnalysisContent = () => {
 
   return (
     <AnalysisContainer>
-      <Video>{/* 영상 데이터 렌더링 */}</Video>
+      {videoUrl && <video src={videoUrl} controls />}
       <DateAndQuestion>
         <DateContainer>
           <Date>날짜</Date>
