@@ -141,6 +141,7 @@ const Report = () => {
           response['eye_rate'],
           response['talking_rate'],
         ]); // 응답 데이터를 state에 저장
+        console.log(result);
       }
     };
 
