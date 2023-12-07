@@ -70,7 +70,7 @@ const Question: React.FC = () => {
         <TimerWrapper>
           <CountdownCircleTimer
           isPlaying
-          duration={30}
+          duration={2}
           colors={["#4341B1"] as any} //타입 체크를 일시적으로 우회
           >
           {renderTime}

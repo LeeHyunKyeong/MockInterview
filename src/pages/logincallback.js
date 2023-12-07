@@ -8,36 +8,23 @@ const Redirection = () => {
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(code);
   const navigate = useNavigate();
+
   useEffect(() => {
     const sendCodeToBackend = async () => {
-      try {
-        const response = await axios.post(
-          'http://127.0.0.1:8000/login-callback/',
-          {
-            code: code,
-          }
-        );
-        console.log(response.data);
-        navigate('/start', { state: { nickname: response.data.nickname } });
-      } catch (error) {
-        console.error(`Error: ${error}`);
+      if (code) {
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/kakaoLoginLogicRedirect/', { code });
+          console.log(response.data);
+          navigate('/start', { state: { nickname: response.data.nickname } });
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
       }
     };
 
-    if (code) {
-      sendCodeToBackend();
-    }
+    sendCodeToBackend();
 
-    // 3초 후에 start 페이지로 이동합니다.
-    const timeoutId = setTimeout(() => {
-      navigate('/start');
-    }, 3000);
-
-    // cleanup 함수에서 setTimeout을 취소합니다.
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [code]);
+  }, [code, navigate]);
 
   return (
     <Wallpaper>

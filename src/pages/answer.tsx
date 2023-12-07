@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import ProgressStep from '../components/progress-step';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useMediaStream } from '../media-stream-context';
@@ -142,30 +143,32 @@ const Answer: React.FC = () => {
   
           // FormData 객체를 생성하고 파일을 추가합니다.
           const formData = new FormData();
-          formData.append('video', videoBlob, 'video.webm');
-          formData.append('audio', audioBlob, 'audio.webm');
-  
-          // try {
-          //   const response = await axios.post('YOUR_BACKEND_ENDPOINT', formData, {
-          //     headers: {
-          //       'Content-Type': 'multipart/form-data',
-          //     },
-          //   });
-          //   console.log('Files uploaded successfully:', response.data);
-          // 미디어 스트림의 각 트랙을 중지합니다.
+          formData.append('video_data', videoBlob, 'video.webm');
+          formData.append('audio_data', audioBlob, 'audio.webm');
+
+          try {
+            const response = await axios.post('http://127.0.0.1:8000/interview/record/', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            console.log('Response:', response.data);
+    
+            // 성공적으로 전송 후에 페이지 이동
+            navigate('/submit');
+          } catch (error) {
+            console.error('Error:', error);
+            // 에러 처리 로직
+          }
+    
           if (mediaStream) {
             mediaStream.getTracks().forEach(track => track.stop());
           }
-
-          navigate('/submit');
-          // } catch (error) {
-          //   console.error('Error sending files to backend:', error);
-          // }
         };
         audioRecorder.stop();
       };
       videoRecorder.stop();
-    }
+    };
   };
 
   const renderTime = ({ remainingTime }: TimeProps) => {
