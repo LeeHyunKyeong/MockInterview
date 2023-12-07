@@ -97,6 +97,8 @@ const Answer: React.FC = () => {
   const videoChunks = useRef<BlobPart[]>([]);
   const audioChunks = useRef<BlobPart[]>([]);
 
+  const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(null);
+
   useEffect(() => {
     if (videoRef.current && mediaStream) {
       videoRef.current.srcObject = mediaStream;
@@ -141,10 +143,26 @@ const Answer: React.FC = () => {
           console.log('Audio Blob size:', audioBlob.size);
           console.log('Audio Blob type:', audioBlob.type);
   
+
+          // 현재 날짜와 시간을 포맷에 맞게 생성하는 함수
+          function getCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+          }
+
           // FormData 객체를 생성하고 파일을 추가합니다.
           const formData = new FormData();
-          formData.append('video_data', videoBlob, 'video.webm');
-          formData.append('audio_data', audioBlob, 'audio.webm');
+          const videoFilename = `video_${getCurrentDateTime()}.webm`;
+          const audioFilename = `audio_${getCurrentDateTime()}.webm`;
+          formData.append('video_data', videoBlob, videoFilename);
+          formData.append('audio_data', audioBlob, audioFilename);
 
           try {
             const response = await axios.post('http://127.0.0.1:8000/interview/record/', formData, {
@@ -154,11 +172,11 @@ const Answer: React.FC = () => {
             });
             console.log('Response:', response.data);
     
-            // 성공적으로 전송 후에 페이지 이동
-            navigate('/submit');
+            //성공 시 navigate
+            const url = URL.createObjectURL(videoBlob);
+            navigate(`/mypage?videoUrl=${encodeURIComponent(url)}`);
+            setRecordedVideoUrl(url);
           } catch (error) {
-            console.error('Error:', error);
-            // 에러 처리 로직
           }
     
           if (mediaStream) {
@@ -170,6 +188,41 @@ const Answer: React.FC = () => {
       videoRecorder.stop();
     };
   };
+
+  // const handleSubmit = async () => {
+  //   // 레코더를 멈춰야 합니다. 레코딩이 끝나고 나서 파일을 전송해야 하기 때문입니다.
+  //   if (videoRecorder && audioRecorder) {
+  //     videoRecorder.onstop = async () => {
+  //       // Video 파일 Blob 생성
+  //       const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
+  //       videoChunks.current = [];
+  //       const url = URL.createObjectURL(videoBlob);
+  //       navigate(`/mypage?videoUrl=${encodeURIComponent(url)}`);
+  //       setRecordedVideoUrl(url);
+  //       console.log('Video Blob size:', videoBlob.size);
+  //       console.log('Video Blob type:', videoBlob.type);
+  
+  //       audioRecorder.onstop = async () => {
+  //         // Audio 파일 Blob 생성
+  //         const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm' });
+  //         audioChunks.current = [];
+  //         console.log('Audio Blob size:', audioBlob.size);
+  //         console.log('Audio Blob type:', audioBlob.type);
+  
+  //         // FormData 객체를 생성하고 파일을 추가합니다.
+  //         const formData = new FormData();
+  //         formData.append('video_data', videoBlob, 'video.webm');
+  //         formData.append('audio_data', audioBlob, 'audio.webm');
+    
+  //         if (mediaStream) {
+  //           mediaStream.getTracks().forEach(track => track.stop());
+  //         }
+  //       };
+  //       audioRecorder.stop();
+  //     };
+  //     videoRecorder.stop();
+  //   };
+  // };
 
   const renderTime = ({ remainingTime }: TimeProps) => {
     return (
