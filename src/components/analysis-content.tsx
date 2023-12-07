@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 const AnalysisContainer = styled.div`
   margin-left: 40px;
   width: 400px;
-  height: 400px;
+  height: 450px;
   padding: 15px;
 `;
 
-const Video = styled.div`
-  width: 100%;
-  max-width: 380px;
-  border-radius: 8px;
+const Video = styled.video`
+  width: 100%; // 실제 너비를 최대 너비까지 확장
+  height: auto; // 비디오의 높이를 비율에 맞게 자동 조절
+  margin-bottom: 10px;
 `;
 
 const DateAndQuestion = styled.div`
@@ -105,7 +105,8 @@ const AnalysisContent = () => {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const videoUrl = queryParams.get('videoUrl');
+  
+  const videoUrl = localStorage.getItem('recordedVideoUrl');
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -119,7 +120,7 @@ const AnalysisContent = () => {
 
   return (
     <AnalysisContainer>
-      {videoUrl && <video src={videoUrl} controls />}
+      {videoUrl && <Video src={videoUrl} controls />}
       <DateAndQuestion>
         <DateContainer>
           <Date>날짜</Date>

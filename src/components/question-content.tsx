@@ -201,9 +201,9 @@ const AddQuestionModal: React.FC<{ isOpen: boolean; onClose: () => void; onAdd: 
 
 const QuestionContent: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([
-    { id: 1, text: '질문1' },
-    { id: 2, text: '질문2' },
-    { id: 3, text: '질문3'}
+    { id: 1, text: '지원 동기를 말씀해주세요' },
+    { id: 2, text: '1분 자기소개를 해주세요' },
+    { id: 3, text: '마지막으로 하고 싶은 말이 있나요?'}
 ]);
     const [selectedQuestions, setSelectedQuestions] = useState<number[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);

@@ -171,11 +171,10 @@ const Answer: React.FC = () => {
               }
             });
             console.log('Response:', response.data);
-    
-            //성공 시 navigate
+  
             const url = URL.createObjectURL(videoBlob);
-            navigate(`/mypage?videoUrl=${encodeURIComponent(url)}`);
-            setRecordedVideoUrl(url);
+            localStorage.setItem('recordedVideoUrl', url);
+            navigate('/submit');
           } catch (error) {
           }
     
@@ -188,41 +187,6 @@ const Answer: React.FC = () => {
       videoRecorder.stop();
     };
   };
-
-  // const handleSubmit = async () => {
-  //   // 레코더를 멈춰야 합니다. 레코딩이 끝나고 나서 파일을 전송해야 하기 때문입니다.
-  //   if (videoRecorder && audioRecorder) {
-  //     videoRecorder.onstop = async () => {
-  //       // Video 파일 Blob 생성
-  //       const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
-  //       videoChunks.current = [];
-  //       const url = URL.createObjectURL(videoBlob);
-  //       navigate(`/mypage?videoUrl=${encodeURIComponent(url)}`);
-  //       setRecordedVideoUrl(url);
-  //       console.log('Video Blob size:', videoBlob.size);
-  //       console.log('Video Blob type:', videoBlob.type);
-  
-  //       audioRecorder.onstop = async () => {
-  //         // Audio 파일 Blob 생성
-  //         const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm' });
-  //         audioChunks.current = [];
-  //         console.log('Audio Blob size:', audioBlob.size);
-  //         console.log('Audio Blob type:', audioBlob.type);
-  
-  //         // FormData 객체를 생성하고 파일을 추가합니다.
-  //         const formData = new FormData();
-  //         formData.append('video_data', videoBlob, 'video.webm');
-  //         formData.append('audio_data', audioBlob, 'audio.webm');
-    
-  //         if (mediaStream) {
-  //           mediaStream.getTracks().forEach(track => track.stop());
-  //         }
-  //       };
-  //       audioRecorder.stop();
-  //     };
-  //     videoRecorder.stop();
-  //   };
-  // };
 
   const renderTime = ({ remainingTime }: TimeProps) => {
     return (
@@ -258,3 +222,38 @@ const Answer: React.FC = () => {
 };
 
 export default Answer;
+
+//   const handleSubmit = async () => {
+//     // 레코더를 멈춰야 합니다. 레코딩이 끝나고 나서 파일을 전송해야 하기 때문입니다.
+//     if (videoRecorder && audioRecorder) {
+//       videoRecorder.onstop = async () => {
+//         // Video 파일 Blob 생성
+//         const videoBlob = new Blob(videoChunks.current, { type: 'video/webm' });
+//         videoChunks.current = [];
+//         const url = URL.createObjectURL(videoBlob);
+//         navigate(`/mypage?videoUrl=${encodeURIComponent(url)}`);
+//         setRecordedVideoUrl(url);
+//         console.log('Video Blob size:', videoBlob.size);
+//         console.log('Video Blob type:', videoBlob.type);
+  
+//         audioRecorder.onstop = async () => {
+//           // Audio 파일 Blob 생성
+//           const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm' });
+//           audioChunks.current = [];
+//           console.log('Audio Blob size:', audioBlob.size);
+//           console.log('Audio Blob type:', audioBlob.type);
+  
+//           // FormData 객체를 생성하고 파일을 추가합니다.
+//           const formData = new FormData();
+//           formData.append('video_data', videoBlob, 'video.webm');
+//           formData.append('audio_data', audioBlob, 'audio.webm');
+    
+//           if (mediaStream) {
+//             mediaStream.getTracks().forEach(track => track.stop());
+//           }
+//         };
+//         audioRecorder.stop();
+//       };
+//       videoRecorder.stop();
+//     };
+//   };

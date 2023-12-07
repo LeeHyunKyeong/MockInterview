@@ -13,11 +13,18 @@ const Redirection = () => {
     const sendCodeToBackend = async () => {
       if (code) {
         try {
-          const response = await axios.post('http://127.0.0.1:8000/kakaoLoginLogicRedirect/', { code });
-          console.log(response.data);
-          navigate('/start', { state: { nickname: response.data.nickname } });
+          // const response = await axios.post('http://127.0.0.1:8000/kakaoLoginLogicRedirect/', { code });
+          // console.log(response.data);
+
+          // 2초 후에 /start 페이지로 이동
+          setTimeout(() => {
+            navigate('/start');
+          }, 2000);
+
         } catch (error) {
           console.error("Error:", error.message);
+          // 에러 발생 시 즉시 이동
+          navigate('/error');
         }
       }
     };
