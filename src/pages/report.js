@@ -95,7 +95,7 @@ const TextEmo = styled.div`
 `;
 
 const IText = styled.div`
-  font-size: 20px;
+  font-size: 30px;
   color: white;
   font-weight: 700;
 `;
@@ -116,9 +116,9 @@ const Report = () => {
     '2023-11-23',
     '1분 자기소개를 해주세요.',
     -1,
-    '수',
-    '있는',
-    '이런',
+    '4',
+    '그중에서도',
+    '근데요',
     1,
     0,
     1,
@@ -242,7 +242,7 @@ const Report = () => {
               style={{ width: '100px', height: '100px' }}
             />
           ) : (
-            <IText style={{ fontSize: '30px' }}>
+            <IText style={{ fontSize: '18px' }}>
               "{word[0]},{word[1]},{word[2]}"
             </IText>
           )}
