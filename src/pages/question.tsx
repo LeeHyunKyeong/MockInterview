@@ -56,7 +56,7 @@ const Question: React.FC = () => {
     }
 
     return (
-      <div className="timer" style={{ color: '#004777', fontSize: '40px', fontWeight: 500 }}>
+      <div className="timer" style={{ color: '#4341B1', fontSize: '40px', fontWeight: 500 }}>
         <div className="value">{remainingTime}</div>
       </div>
     );
@@ -70,8 +70,8 @@ const Question: React.FC = () => {
         <TimerWrapper>
           <CountdownCircleTimer
           isPlaying
-          duration={2}
-          colors={["#004777"] as any} //타입 체크를 일시적으로 우회
+          duration={30}
+          colors={["#4341B1"] as any} //타입 체크를 일시적으로 우회
           >
           {renderTime}
           </CountdownCircleTimer>

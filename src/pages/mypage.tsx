@@ -77,7 +77,7 @@ const Mypage: React.FC = () => {
       </IconWrapper>
       <ProfileBox>
         <ProfileImage src={ProfileImageSrc} alt="Profile" />
-        <Nickname>이현경 님</Nickname>
+        <Nickname>현경 님</Nickname>
         <StatsBox>
           <Stat>연습한 질문 <StatNumber>1</StatNumber>개</Stat>
           <Stat>총 영상 <StatNumber>1</StatNumber>개</Stat>
